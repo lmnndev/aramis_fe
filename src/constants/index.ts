@@ -1,6 +1,10 @@
 import { GraduationCap, School } from "lucide-react";
 //URLS
-export const BACKEND_BASE_URL =  import.meta.env.VITE_BACKEND_BASE_URL;
+export const BACKEND_BASE_URL =  import.meta.env.VITE_BACKEND_BASE_URL ?? '';
+
+if (!BACKEND_BASE_URL) {
+    console.warn('VITE_BACKEND_BASE_URL is not set. API calls may fail.');
+}
 //DEPARTMENTS
 export const DEPARTMENTS = [
     "Computer Science",
