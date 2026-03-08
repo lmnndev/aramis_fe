@@ -1,7 +1,9 @@
 import {createDataProvider,CreateDataProviderOptions} from '@refinedev/rest';
 import { BACKEND_BASE_URL } from '@/constants';
 import { ListResponse } from '@/types';
-
+if (!BACKEND_BASE_URL) {
+    console.warn('VITE_BACKEND_BASE_URL is not set. API calls may fail.');
+}
 const options: CreateDataProviderOptions = {
   getList:{
     getEndpoint:({resource})=> resource,
