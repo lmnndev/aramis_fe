@@ -13,12 +13,14 @@ import { useNotificationProvider } from "./components/refine-ui/notification/use
 import { ThemeProvider } from "./components/refine-ui/theme/theme-provider";
 import { dataProvider } from "./providers/data";
 //Added
-import { Home, BookOpen } from "lucide-react";
 import { Layout } from "./components/refine-ui/layout/layout";
 import { Outlet } from "react-router";
 import Dashboard from "./pages/dashboard";
 import SubjectsList from "./pages/subjects/list";
 import SubjectCreate from "./pages/subjects/create";
+import { resources } from "./constants";
+import ClassesList from "./pages/classes/list";
+import ClassesCreate from "./pages/classes/create";
 
 function App() {
   return (
@@ -35,28 +37,22 @@ function App() {
                 warnWhenUnsavedChanges: true,
                 projectId: "ZCMYYo-d1z85y-51vdCe",
               }}
-              resources={[
-              {
-                name:'dashboard',
-                list: '/',
-                meta:{label:'Home', icon:<Home/>}
-              },
-              {
-                name:'subjects',
-                list: '/subjects',
-                create: '/subjects/create',
-                meta:{label:'Subjects', icon:<BookOpen/>}
-              },
-            ]}
+              resources={resources}
 
             >
               <Routes>
                 <Route  element={<Layout><Outlet/></Layout>}>
+                {/* Main Route Start */}
                 <Route path='/' element={<Dashboard />} />
                 <Route path='subjects'>
                   <Route index element={<SubjectsList />} />
                   <Route path="create" element={<SubjectCreate />} />
                 </Route>
+                <Route path='classes'>
+                  <Route index element={<ClassesList />} />
+                  <Route path="create" element={<ClassesCreate />} />
+                </Route>
+                {/* Main Route End */}
                 </Route>
               </Routes>
               <Toaster />
