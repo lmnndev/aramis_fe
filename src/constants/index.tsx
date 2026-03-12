@@ -1,4 +1,4 @@
-import { GraduationCap, School } from "lucide-react";
+import { Home, BookOpen, GraduationCap } from "lucide-react";
 //URLS
 export const BACKEND_BASE_URL =  import.meta.env.VITE_BACKEND_BASE_URL ?? '';
 
@@ -54,5 +54,49 @@ export const subjects = [
         id: 4,
         name: "Chemistry",
         code: "CHEM",
+    },
+];
+
+//Resources
+
+export const resources = [
+    {
+    name:'dashboard',
+    list: '/',
+    meta:{
+        label:'Home', 
+        icon:<Home/>
+    }
+    },
+    {
+    name:'subjects',
+    list: '/subjects',
+    create: '/subjects/create',
+    meta:{
+        label:'Subjects', 
+        icon:<BookOpen/>}
+    },
+    {
+    name:'classes',
+    list: '/classes',
+    create: '/classes/create',
+    meta:{
+        label:'Classes', 
+        icon:<GraduationCap/>}
+    }
+]
+
+export const teachers = [
+    {
+        id: "1",
+        name: "John Doe",
+    },
+    {
+        id: "2",
+        name: "Jane Smith",
+    },
+    {
+        id: "3",
+        name: "Dr. Alan Turing",
     },
 ];
