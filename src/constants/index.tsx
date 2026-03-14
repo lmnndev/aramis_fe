@@ -1,8 +1,10 @@
 import { Home, BookOpen, GraduationCap } from "lucide-react";
 //URLS
 export const BACKEND_BASE_URL =  import.meta.env.VITE_BACKEND_BASE_URL ?? '';
-
-
+export const CLOUDINARY_NAME = import.meta.env.VITE_CLOUDINARY_NAME ?? '';
+export const CLOUDINARY_PRESET = import.meta.env.VITE_CLOUDINARY_PRESET ?? '';
+export const CLOUDINARY_PRESETUNSIGNED = import.meta.env.VITE_CLOUDINARY_PRESETUNSIGNED ?? '';
+export const CLOUDINARY_URL = import.meta.env.VITE_CLOUDINARY_UPLOADURL ?? '';
 //DEPARTMENTS
 export const DEPARTMENTS = [
     "Computer Science",

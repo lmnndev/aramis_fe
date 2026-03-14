@@ -113,7 +113,7 @@ const ClassesCreate = () => {
                                 <FormField
                                 control = {control}
                                 name='bannerUrl'
-                                render={(field)=>(
+                                render={({field})=>(
                                     <FormItem>
                                         <FormLabel>
                                             Banner Image
