@@ -1,12 +1,12 @@
 import {useRef, useState,useEffect} from 'react'
-import { UploadWidgetValue } from '@/types';
+import { UploadWidgetValue,UploadWidgetProps } from '@/types';
 import { CloudUpload } from 'lucide-react';
 import { CLOUDINARY_NAME, CLOUDINARY_PRESET, CLOUDINARY_PRESETUNSIGNED } from '@/constants';
 const UploadWidget = ({
     value=null, 
     onChange, 
     disabled = false
-    }) => {
+    }:UploadWidgetProps) => {
     const widgetRef = useRef<CloudinaryWidget | null>(null)
     const onChangeRef = useRef(onChange);
 
@@ -31,7 +31,7 @@ const UploadWidget = ({
 
     useEffect(()=>{
         setPreview(value);
-        if(!value)setDeleteToken(null)
+        //if(!value)setDeleteToken(null)
     },[value])
 
     useEffect(()=> {
@@ -56,7 +56,7 @@ const UploadWidget = ({
                     }
 
                     setPreview(payload)
-                    setDeleteToken(res.info.delete_token??null)
+                    //setDeleteToken(res.info.delete_token??null)
 
                     onChangeRef.current?.(payload)
                 }
