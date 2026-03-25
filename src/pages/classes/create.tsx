@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useForm } from '@refinedev/react-hook-form'
 import { Separator } from '@/components/ui/separator'
-import { useBack } from '@refinedev/core'
+import { useBack, useList } from '@refinedev/core'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { classSchema } from '@/lib/schema'
 import { Input } from '@/components/ui/input'
@@ -17,11 +17,11 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import * as z from "zod"
-import { Label } from '@radix-ui/react-menubar'
 import { Select, SelectItem, SelectTrigger, SelectContent, SelectValue } from '@/components/ui/select'
-import { teachers, subjects } from '@/constants'
 import { Textarea } from '@/components/ui/textarea'
 import UploadWidget from '@/components/upload-widget'
+import { Subject, User } from '@/types'
+
 const ClassesCreate = () => {
     const back = useBack();
 
@@ -36,20 +36,48 @@ const ClassesCreate = () => {
    
 
     const {
+        refineCore: {onFinish},
         handleSubmit,
         formState: { isSubmitting, errors },
         control,
    
     } = form;
 
-    const onSubmit = (values: z.infer<typeof classSchema>) => {
+    const onSubmit = async (values: z.infer<typeof classSchema>) => {
         try {
-
+            await onFinish(values);
         }
         catch (e) {
             console.log('Error creating new classes', e)
         }
     }
+
+    const { query: subjectsQuery } = useList<Subject>({
+        resource: 'subjects',
+        filters: [
+            {
+                field: 'role',
+                operator: 'eq',
+                value: 'teacher'
+            }
+        ],
+        pagination: {
+            pageSize:100
+        }
+    })
+
+    const { query: teachersQuery } = useList<User>({
+        resource: 'users',
+        pagination: {
+            pageSize:100
+        }
+    })
+
+    const subjects = subjectsQuery?.data?.data || [];
+    const subjectsLoading = subjectsQuery.isLoading;
+
+    const teachers = teachersQuery?.data?.data || [];
+    const teachersLoading = teachersQuery.isLoading;
 
     const bannerPublicId = form.watch('bannerCldPubId');
 
@@ -173,7 +201,8 @@ const ClassesCreate = () => {
 
                                                 <Select
                                                     onValueChange={(value) => field.onChange(Number(value))}
-                                                    value={field?.value?.toString()}>
+                                                    value={field?.value?.toString()}
+                                                    disabled={subjectsLoading}>
                                                     <FormControl>
                                                         <SelectTrigger className='w-full'>
                                                             <SelectValue placeholder='Select a subject...' />
@@ -208,8 +237,9 @@ const ClassesCreate = () => {
                                                 </FormLabel>
 
                                                 <Select
-                                                    onValueChange={(value) => field.onChange(Number(value))}
-                                                    value={field?.value?.toString()}>
+                                                    onValueChange={(value) => field.onChange(value)}
+                                                    value={field?.value?.toString()}
+                                                    disabled={teachersLoading}>
                                                     <FormControl>
                                                         <SelectTrigger className='w-full'>
                                                             <SelectValue placeholder='Choose the best teacher for your learning...' />
@@ -218,7 +248,7 @@ const ClassesCreate = () => {
                                                     <SelectContent>
                                                         {
                                                             teachers.map((teacher) => (
-                                                                <SelectItem value={teacher.id.toString()} key={teacher.id}>
+                                                                <SelectItem value={teacher.id} key={teacher.id}>
                                                                     {teacher.name}
                                                                 </SelectItem>
                                                             ))
