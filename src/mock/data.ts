@@ -8,8 +8,7 @@ export const MOCK_SUBJECTS: Subject[] = [
     department: "Computer Science",
     description:
       "Covers the fundamentals of programming, algorithms, and computer systems for beginners.",
-    createdAt: new Date().toISOString(),
-    updateAt: new Date().toISOString(),
+    createdAt: new Date().toISOString()
   },
   {
     id: 2,
@@ -18,8 +17,7 @@ export const MOCK_SUBJECTS: Subject[] = [
     department: "Humanities",
     description:
       "Focuses on academic writing, argumentation, and research-based essays to refine communication skills.",
-      createdAt: new Date().toISOString(),
-    updateAt: new Date().toISOString(),
+      createdAt: new Date().toISOString()
   },
   {
     id: 3,
@@ -28,7 +26,6 @@ export const MOCK_SUBJECTS: Subject[] = [
     department: "Biological Sciences",
     description:
       "An introduction to cellular biology, genetics, evolution, and ecology with practical laboratory work.",
-    createdAt: new Date().toISOString(),
-    updateAt: new Date().toISOString(),
+    createdAt: new Date().toISOString()
   }
 ];
