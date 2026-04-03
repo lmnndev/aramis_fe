@@ -1,77 +1,88 @@
-import {createDataProvider,CreateDataProviderOptions} from '@refinedev/rest';
-import { BACKEND_BASE_URL } from '@/constants';
-import { HttpError } from '@refinedev/core';
-import { CreateResponse, ListResponse } from '@/types';
-if (!BACKEND_BASE_URL) {
-    console.warn('VITE_BACKEND_BASE_URL is not set. API calls may fail.');
-}
+import { createDataProvider, CreateDataProviderOptions } from "@refinedev/rest";
 
-const buildHttpError = async(res: Response):Promise<HttpError> => {
-  let message = 'Request failed.';
+import { CreateResponse, GetOneResponse, ListResponse } from "@/types";
+import { BACKEND_BASE_URL } from "@/constants";
 
-  try{
-    const payload = (await res.json()) as {message?:string}
-
-    if(payload?.message) message = payload.message;
-  }catch{
-    //Ignore errors
-  }
-
-  return {
-    message,
-    statusCode: res.status
-  }
-}
 const options: CreateDataProviderOptions = {
-  getList:{
-    getEndpoint:({resource})=> resource,
+  getList: {
+    getEndpoint: ({ resource }) => resource,
 
-    mapResponse: async(response)=>{
-      if(!response.ok) throw await buildHttpError(response);
-      const payload:ListResponse = await response.clone().json();
-      return payload.data??[]
-    },
+    buildQueryParams: async ({ resource, pagination, filters }) => {
+      const params: Record<string, string | number> = {};
 
-    getTotalCount: async(response)=>{
-      if(!response.ok) throw await buildHttpError(response);
-      const payload: ListResponse = await response.clone().json();
-      return payload.pagination?.total??payload.data?.length??0;
-    },
+      if (pagination?.mode !== "off") {
+        const page = pagination?.currentPage ?? 1;
+        const pageSize = pagination?.pageSize ?? 10;
 
-    buildQueryParams: async ({resource, pagination, filters}) => {
-      const page = pagination?.currentPage ?? 1;
-      const pageSize = pagination?.pageSize??10;
-      const params:Record<string, string|number> = {page, limit: pageSize}
+        params.page = page;
+        params.limit = pageSize;
+      }
 
-      filters?.forEach((filter)=>{
-        const field = 'field' in filter ? filter.field: '';
-
+      filters?.forEach((filter) => {
+        const field = "field" in filter ? filter.field : "";
         const value = String(filter.value);
 
-        if(resource === 'subjects'){
-          if(field === 'department') params.department = value;
-          if(field === 'name' || field === 'code') params.search = value;
+        if (field === "role") {
+          params.role = value;
         }
-      })
+
+        if (resource === "departments") {
+          if (field === "name" || field === "code") params.search = value;
+        }
+
+        if (resource === "users") {
+          if (field === "search" || field === "name" || field === "email") {
+            params.search = value;
+          }
+        }
+
+        if (resource === "subjects") {
+          if (field === "department") params.department = value;
+          if (field === "name" || field === "code") params.search = value;
+        }
+
+        if (resource === "classes") {
+          if (field === "name") params.search = value;
+          if (field === "subject") params.subject = value;
+          if (field === "teacher") params.teacher = value;
+        }
+      });
 
       return params;
-    }
+    },
+
+    mapResponse: async (response) => {
+      const payload: ListResponse = await response.json();
+      return payload.data ?? [];
+    },
+
+    getTotalCount: async (response) => {
+      const payload: ListResponse = await response.json();
+      return payload.pagination?.total ?? payload.data?.length ?? 0;
+    },
   },
 
   create: {
-    getEndpoint: ({resource}) => resource,
+    getEndpoint: ({ resource }) => resource,
 
-    buildBodyParams: async ({variables}) => variables,
+    buildBodyParams: async ({ variables }) => variables,
 
     mapResponse: async (response) => {
       const json: CreateResponse = await response.json();
+      return json.data ?? {};
+    },
+  },
 
-      return json.data ?? [];
-    }
+  getOne: {
+    getEndpoint: ({ resource, id }) => `${resource}/${id}`,
 
-  }
-}
+    mapResponse: async (response) => {
+      const json: GetOneResponse = await response.json();
+      return json.data ?? {};
+    },
+  },
+};
 
-const { dataProvider } = createDataProvider(BACKEND_BASE_URL, options)
+const { dataProvider } = createDataProvider(BACKEND_BASE_URL, options);
 
-export {dataProvider}
+export { dataProvider };

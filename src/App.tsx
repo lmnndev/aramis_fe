@@ -21,6 +21,7 @@ import SubjectCreate from "./pages/subjects/create";
 import { resources } from "./constants";
 import ClassesList from "./pages/classes/list";
 import ClassesCreate from "./pages/classes/create";
+import ClassesShow from "./pages/classes/show";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
                 <Route path='classes'>
                   <Route index element={<ClassesList />} />
                   <Route path="create" element={<ClassesCreate />} />
+                  <Route path="show/:id" element={<ClassesShow />} />
                 </Route>
                 {/* Main Route End */}
                 </Route>
