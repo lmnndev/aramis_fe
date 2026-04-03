@@ -5,6 +5,7 @@ export const CLOUDINARY_NAME = import.meta.env.VITE_CLOUDINARY_NAME ?? '';
 export const CLOUDINARY_PRESET = import.meta.env.VITE_CLOUDINARY_PRESET ?? '';
 export const CLOUDINARY_PRESETUNSIGNED = import.meta.env.VITE_CLOUDINARY_PRESETUNSIGNED ?? '';
 export const CLOUDINARY_URL = import.meta.env.VITE_CLOUDINARY_UPLOADURL ?? '';
+export const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_NAME ?? '';
 //DEPARTMENTS
 export const DEPARTMENTS = [
     "Computer Science",
@@ -82,6 +83,7 @@ export const resources = [
     name:'classes',
     list: '/classes',
     create: '/classes/create',
+    show: "/classes/show/:id",
     meta:{
         label:'Classes', 
         icon:<GraduationCap/>}
