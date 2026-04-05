@@ -37,6 +37,10 @@ function App() {
                 syncWithLocation: true,
                 warnWhenUnsavedChanges: true,
                 projectId: "ZCMYYo-d1z85y-51vdCe",
+                title: { 
+                  text: "Kyomiere", 
+                  icon: <div className="size-4 bg-primary rounded-full" /> 
+                },
               }}
               resources={resources}
 
