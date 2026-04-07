@@ -1,3 +1,15 @@
 {
-  "welcome": "Boardaashu"
+  "common": {
+    "welcome": "Tableau de bord"
+  },
+  "pages": {
+    "subjects": {
+      "header": "Créer un en-tête",
+      "description": "Gérez vos matières"
+    },
+    "class": {
+      "header": "Liste des classes",
+      "empty": "Aucune classe pour le moment"
+    }
+  }
 }

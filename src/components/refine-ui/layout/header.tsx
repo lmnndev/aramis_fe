@@ -14,7 +14,7 @@ import {
   useRefineOptions,
 } from "@refinedev/core";
 import { LogOutIcon } from "lucide-react";
-
+import TranslateButton from "@/components/translate-button";
 export const Header = () => {
   const { isMobile } = useSidebar();
 
@@ -40,6 +40,7 @@ function DesktopHeader() {
         "z-40"
       )}
     >
+      <TranslateButton/>
       <ThemeToggle />
       <UserDropdown />
     </header>
@@ -111,7 +112,7 @@ function MobileHeader() {
           {title.text}
         </h2>
       </div>
-
+      <TranslateButton/>
       <ThemeToggle className={cn("h-8", "w-8")} />
     </header>
   );
