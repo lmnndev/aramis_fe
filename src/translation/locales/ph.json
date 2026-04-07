@@ -1,0 +1,15 @@
+{
+  "common": {
+    "welcome": "Pangunawa"
+  },
+  "pages": {
+    "subjects": {
+      "header": "Gumawa ng Header",
+      "description": "Pamahalaan ang iyong mga asignatura"
+    },
+    "class": {
+      "header": "Listahan ng mga Klase",
+      "empty": "Wala pang mga klase"
+    }
+  }
+}

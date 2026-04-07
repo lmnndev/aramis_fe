@@ -22,14 +22,17 @@ import { resources } from "./constants";
 import ClassesList from "./pages/classes/list";
 import ClassesCreate from "./pages/classes/create";
 import ClassesShow from "./pages/classes/show";
-
+//translation
+import i18nProvider from "./translation";
 function App() {
   return (
     <BrowserRouter>
       <RefineKbarProvider>
         <ThemeProvider>
           <DevtoolsProvider>
+            
             <Refine
+              i18nProvider={i18nProvider}
               dataProvider={dataProvider}
               notificationProvider={useNotificationProvider()}
               routerProvider={routerProvider}
@@ -61,6 +64,7 @@ function App() {
                 {/* Main Route End */}
                 </Route>
               </Routes>
+              
               <Toaster />
               <RefineKbar />
               <UnsavedChangesNotifier />

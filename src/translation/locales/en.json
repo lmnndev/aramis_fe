@@ -1,0 +1,15 @@
+{
+  "common": {
+    "welcome": "Dashboard"
+  },
+  "pages": {
+    "subjects": {
+      "header": "Create a header",
+      "description": "Manage your subjects"
+    },
+    "class": {
+      "header": "Class List",
+      "empty": "No classes yet"
+    }
+  }
+}
