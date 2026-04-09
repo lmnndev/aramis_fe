@@ -120,3 +120,16 @@ export type SignUpPayload = {
     imageCldPubId?: string;
     role: UserRole;
 };
+
+export type Student = {
+  id: string;
+  name: string;
+  email: string;
+};
+
+type ClassInsightsParams = {
+  classDetails: ClassDetails;
+  students: Student[];
+};
+
+export type ClassInsights = (params: ClassInsightsParams) => Promise<string>;
