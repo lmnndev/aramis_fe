@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { AdvancedImage } from "@cloudinary/react";
 import { useShow } from "@refinedev/core";
 import { useTable } from "@refinedev/react-table";
@@ -18,7 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { bannerPhoto } from "@/lib/cloudinary";
 import { ClassDetails } from "@/types";
-
+import { getClassInsights } from "@/api/class-insights";
 type ClassUser = {
   id: string;
   name: string;
@@ -28,12 +29,20 @@ type ClassUser = {
 };
 
 const ClassesShow = () => {
-  const { id } = useParams();
-  const classId = id ?? "";
 
-  const { query } = useShow<ClassDetails>({
-    resource: "classes",
-  });
+    
+
+    //states
+    const [insight, setInsight] = useState<string>("");
+    const [loadingInsight, setLoadingInsight] = useState(false);
+  
+
+    const { id } = useParams();
+    const classId = id ?? "";
+
+    const { query } = useShow<ClassDetails>({
+        resource: "classes",
+    });
 
   const classDetails = query.data?.data;
 
@@ -100,6 +109,8 @@ const ClassesShow = () => {
     },
   });
 
+
+  
   if (query.isLoading || query.isError || !classDetails) {
     return (
       <ShowView className="class-view class-show">
@@ -126,6 +137,27 @@ const ClassesShow = () => {
   const placeholderUrl = `https://placehold.co/600x400?text=${encodeURIComponent(
     teacherInitials || "NA"
   )}`;
+
+  const generateInsight = async () => {
+        if (!classDetails) return;
+
+        setLoadingInsight(true);
+
+        try {
+            const result = await getClassInsights({
+            classDetails,
+            students: [], // keep simple for now
+            });
+
+            setInsight(result);
+        } catch {
+            setInsight("Failed to generate insight.");
+        }
+
+        setLoadingInsight(false);
+    };
+
+    
 
   return (
     <ShowView className="class-view class-show space-y-6">
@@ -244,6 +276,28 @@ const ClassesShow = () => {
           <DataTable table={studentsTable}  />
         </CardContent>
       </Card>
+
+      <div>
+        <Card className="hover:shadow-md transition-shadow">
+            <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle>🤖 AI Insights</CardTitle>
+
+                <Button size="sm" onClick={generateInsight} disabled={loadingInsight}>
+                {loadingInsight ? "Generating..." : "Refresh"}
+                </Button>
+            </CardHeader>
+
+            <CardContent>
+                {loadingInsight ? (
+                <p className="text-muted-foreground">Analyzing class...</p>
+                ) : (
+                <p className="text-sm leading-relaxed">
+                    {insight || "No insights yet."}
+                </p>
+                )}
+            </CardContent>
+        </Card>
+      </div>
     </ShowView>
   );
 };
